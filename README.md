@@ -24,8 +24,9 @@ yarn add simple-event-bus
 
 ## Motivations
 
-I decided to create my own library after using the library [EventEmitter2](https://github.com/EventEmitter2/EventEmitter2) for some time in my projects.
-I found it too complex for my needs and it was also lacking of features like prioritized event handlers.
+I decided to create my own library after using [EventEmitter2](https://github.com/EventEmitter2/EventEmitter2) for some time in my projects.
+
+I found it too complex for my needs and it was also lacking some features like prioritized event handlers.
 
 ## How to use this library
 
@@ -174,7 +175,3 @@ The template contains the following `pnpm` scripts:
 ## License
 
 This repository under the [MIT License](LICENSE), feel free to use it and modify it.
-
-## Credits
-
-This template repository is based on the work of **hywax** with its repository [vite-vanilla-library-template](https://github.com/hywax/vite-vanilla-library-template).
