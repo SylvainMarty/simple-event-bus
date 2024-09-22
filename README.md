@@ -21,6 +21,7 @@ yarn add simple-event-bus
 * Easy to use
 * Lightweight: 0.88 kB (0.39 kB with gzip)
 * Compiled in ESM, CJS, UMD for convenience
+* NestJS native package
 
 ## Motivations
 
@@ -51,6 +52,8 @@ eventBus.emit('myEvent', 'This is a message')
 ```
 
 ### [Native TypeScript package documentation](https://github.com/SylvainMarty/simple-event-bus/tree/main/packages/simple-event-bus)
+
+### [NestJS package documentation](https://github.com/SylvainMarty/simple-event-bus/tree/main/packages/simple-event-bus)
 
 ## Contribute
 
