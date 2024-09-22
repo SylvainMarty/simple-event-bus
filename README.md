@@ -1,5 +1,5 @@
 # Simple event bus
-![](https://github.com/SylvainMarty/simple-event-bus/workflows/ci.yml/badge.svg)
+![](https://github.com/SylvainMarty/simple-event-bus/workflows/CI/badge.svg)
 
 A simple, no-dependency, synchronous event bus written in TypeScript
 
