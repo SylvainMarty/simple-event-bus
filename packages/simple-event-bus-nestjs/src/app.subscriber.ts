@@ -1,23 +1,36 @@
 import { Injectable } from '@nestjs/common';
-import { EventHandler } from '@lib/simple-event-bus/event-handler.decorator';
+import { EventSubscriber, On } from '@lib/simple-event-bus/event-handler.decorator';
+import { EventBus } from '@sylvmty/simple-event-bus';
 
 @Injectable()
+@EventSubscriber()
 export class AppSubscriber {
-  @EventHandler('myEvent')
+  constructor(private readonly eventBus: EventBus) { }
+
+  @On('myEvent')
   singleEventHandler(message: string) {
     console.log('onMyEvent:', message);
   }
 
-  @EventHandler(['myEvent', 'myOtherEvent'])
+  @On('myEvent')
+  singleEventHandlerTriggerOtherEvent(message: string) {
+    this.triggerOtherEvent(message);
+  }
+
+  @On(['myEvent', 'myOtherEvent'])
   multipleEventHandlers(message: string, eventName: string) {
     console.log(`on_${eventName}:`, message);
   }
 
-  @EventHandler({
+  @On({
     myEvent: 99,
     myOtherEvent: -42,
   })
   multipleEventHandlersWithPriority(message: string, eventName: string) {
     console.log(`on_${eventName}:`, message);
+  }
+
+  private triggerOtherEvent(message: string) {
+    this.eventBus.emit('myOtherEvent', message);
   }
 }

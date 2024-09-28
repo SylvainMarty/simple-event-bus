@@ -1,31 +1,36 @@
-import { DynamicModule, Module, Provider, InjectionToken } from '@nestjs/common';
-import { DEFAULT_SIMPLE_EVENT_BUS_TOKEN } from './constants';
-import { SimpleEventBusFactory } from './simple-event-bus.factory';
+import { DynamicModule, Provider, InjectionToken } from '@nestjs/common';
+import { DiscoveryModule } from '@nestjs/core';
+import { EventBus } from '@sylvmty/simple-event-bus';
+import { DEFAULT_SIMPLE_EVENT_BUS_TOKEN, SIMPLE_EVENT_BUS_TOKEN } from './constants';
+import { SimpleEventBusSubscriberRegistry } from './simple-event-bus-subscriber.registry';
 
 export type SimpleEventBusModuleOptions = {
-  isGlobal: boolean,
+  isGlobal?: boolean,
   eventBusToken?: InjectionToken
 };
 
 const createSimpleEventBusProvider: (eventBusToken: InjectionToken) => Provider = (eventBusToken) => ({
   provide: eventBusToken,
-  useFactory: (factory: SimpleEventBusFactory) => factory.create(eventBusToken),
-  inject: [SimpleEventBusFactory],
+  useFactory: () => new EventBus(),
 });
 
-@Module({
-  providers: [SimpleEventBusFactory, createSimpleEventBusProvider(DEFAULT_SIMPLE_EVENT_BUS_TOKEN)],
-  exports: [DEFAULT_SIMPLE_EVENT_BUS_TOKEN],
-})
 export class SimpleEventBusModule {
   static register(options?: SimpleEventBusModuleOptions): DynamicModule {
     const eventBusToken = options?.eventBusToken ?? DEFAULT_SIMPLE_EVENT_BUS_TOKEN;
     return {
       global: !!options?.isGlobal,
       module: SimpleEventBusModule,
-      providers: [SimpleEventBusFactory, createSimpleEventBusProvider(eventBusToken)],
+      imports: [DiscoveryModule],
+      providers: [
+        {
+          provide: SIMPLE_EVENT_BUS_TOKEN,
+          useValue: eventBusToken,
+        },
+        SimpleEventBusSubscriberRegistry,
+        createSimpleEventBusProvider(eventBusToken)
+      ],
       exports: [eventBusToken],
-    }
+    };
   }
 
   static forRoot(eventBusToken?: InjectionToken): DynamicModule {

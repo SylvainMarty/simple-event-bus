@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { SimpleEventBusModule } from '@lib/simple-event-bus';
 
 @Module({
-  imports: [SimpleEventBusModule],
+  imports: [SimpleEventBusModule.forRoot()],
   providers: [AppService, AppSubscriber],
 })
 export class AppModule { }
