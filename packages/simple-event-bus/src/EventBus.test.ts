@@ -40,7 +40,7 @@ describe('eventBus', () => {
     })
   })
 
-  describe('addEventHandlerEntry', () => {
+  describe('on', () => {
     let eventBus: EventBus
 
     beforeEach(() => {
@@ -49,7 +49,7 @@ describe('eventBus', () => {
 
     it('stores a new entry with the priority to 0 when handler callback is given in parameter', () => {
       const eventHandler = (_event: unknown, _eventName: string) => { }
-      eventBus.addEventHandlerEntry('test', eventHandler)
+      eventBus.on('test', eventHandler)
       expect(eventBus.eventMap.test).toHaveLength(1)
       expect(eventBus.eventMap.test[0].priority).toBe(0)
       expect(eventBus.eventMap.test[0].handler).toBe(eventHandler)
@@ -57,7 +57,7 @@ describe('eventBus', () => {
 
     it('stores a new entry with the correct priority when full entry is given in parameter', () => {
       const eventHandler = (_event: unknown, _eventName: string) => { }
-      eventBus.addEventHandlerEntry('test', {
+      eventBus.on('test', {
         priority: 99,
         handler: eventHandler,
       })
@@ -80,9 +80,9 @@ describe('eventBus', () => {
         handler: (_event: unknown, _eventName: string) => { },
       }
 
-      eventBus.addEventHandlerEntry('test', entry1)
-      eventBus.addEventHandlerEntry('test', entry2)
-      eventBus.addEventHandlerEntry('test', entry3)
+      eventBus.on('test', entry1)
+      eventBus.on('test', entry2)
+      eventBus.on('test', entry3)
       expect(eventBus.eventMap.test).toHaveLength(3)
       expect(eventBus.eventMap.test[0].priority).toBe(entry2.priority)
       expect(eventBus.eventMap.test[0].handler).toBe(entry2.handler)
@@ -106,7 +106,7 @@ describe('eventBus', () => {
         handler: (_event: unknown, _eventName: string) => { },
       }
 
-      eventBus.addEventHandlerEntry('test', [entry1, entry2, entry3])
+      eventBus.on('test', [entry1, entry2, entry3])
       expect(eventBus.eventMap.test).toHaveLength(3)
       expect(eventBus.eventMap.test[0].priority).toBe(entry2.priority)
       expect(eventBus.eventMap.test[0].handler).toBe(entry2.handler)
@@ -162,7 +162,7 @@ describe('eventBus', () => {
         ],
       ],
     ])('throws an error when %s', (_, arg) => {
-      expect(() => eventBus.addEventHandlerEntry('test', arg)).toThrow()
+      expect(() => eventBus.on('test', arg)).toThrow()
     })
   })
 
@@ -173,29 +173,29 @@ describe('eventBus', () => {
       eventBus = new EventBus()
     })
 
-    it('calls the handlers with the correct event and eventName', () => {
+    it('calls the handlers with the correct event and eventName', async () => {
       const handler1 = vi.fn()
       const handler2 = vi.fn()
       const handler3 = vi.fn()
-      eventBus.addEventHandlerEntry('test', [handler1, handler2, handler3])
+      eventBus.on('test', [handler1, handler2, handler3])
 
-      eventBus.emit('test', { message: 'This is a test' })
+      await eventBus.emit('test', { message: 'This is a test' })
 
       expect(handler1).toHaveBeenCalledWith({ message: 'This is a test' }, 'test')
       expect(handler2).toHaveBeenCalledWith({ message: 'This is a test' }, 'test')
       expect(handler3).toHaveBeenCalledWith({ message: 'This is a test' }, 'test')
     })
 
-    it('calls the handler with no event data when no parameter is given', () => {
+    it('calls the handler with no event data when no parameter is given', async () => {
       const handler = vi.fn()
-      eventBus.addEventHandlerEntry('test', handler)
+      eventBus.on('test', handler)
 
-      eventBus.emit('test')
+      await eventBus.emit('test')
 
       expect(handler).toHaveBeenCalledWith(undefined, 'test')
     })
 
-    it('calls the handlers in the correct order', () => {
+    it('calls the handlers in the correct order', async () => {
       const callOrder: string[] = []
       const entry1 = {
         priority: 0,
@@ -209,20 +209,55 @@ describe('eventBus', () => {
         priority: -42,
         handler: vi.fn().mockImplementation(() => callOrder.push('entry3')),
       }
-      eventBus.addEventHandlerEntry('test', [entry1, entry2, entry3])
+      eventBus.on('test', [entry1, entry2, entry3])
 
-      eventBus.emit('test', { message: 'This is a test' })
+      await eventBus.emit('test', { message: 'This is a test' })
 
       expect(callOrder).toEqual(['entry2', 'entry1', 'entry3'])
     })
 
-    it('doesn\'t call any handler when emitted event is not of the correct one', () => {
+    it('calls the async & non-async handlers in the correct order', async () => {
+      const waitMs = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+      const callOrder: string[] = []
+      const entry1 = {
+        priority: 0,
+        handler: vi.fn().mockImplementation(async () => {
+          await waitMs(20)
+          callOrder.push('entry1')
+        }),
+      }
+      const entry2 = {
+        priority: 99,
+        handler: vi.fn().mockImplementation(async () => {
+          await waitMs(100)
+          callOrder.push('entry2')
+        }),
+      }
+      const entry3 = {
+        priority: -42,
+        handler: vi.fn().mockImplementation(() => callOrder.push('entry3')),
+      }
+      const entry4 = {
+        priority: -99,
+        handler: vi.fn().mockImplementation(async () => {
+          await waitMs(30)
+          callOrder.push('entry4')
+        }),
+      }
+      eventBus.on('test', [entry1, entry2, entry3, entry4])
+
+      await eventBus.emit('test', { message: 'This is a test' })
+
+      expect(callOrder).toEqual(['entry2', 'entry1', 'entry3', 'entry4'])
+    })
+
+    it('doesn\'t call any handler when emitted event is not of the correct one', async () => {
       const handler1 = vi.fn()
       const handler2 = vi.fn()
       const handler3 = vi.fn()
-      eventBus.addEventHandlerEntry('test', [handler1, handler2, handler3])
+      eventBus.on('test', [handler1, handler2, handler3])
 
-      eventBus.emit('other-test', { message: 'This is a test' })
+      await eventBus.emit('other-test', { message: 'This is a test' })
 
       expect(handler1).not.toHaveBeenCalled()
       expect(handler2).not.toHaveBeenCalled()

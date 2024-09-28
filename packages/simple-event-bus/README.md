@@ -17,11 +17,11 @@ import { EventBus } from 'simple-event-bus'
 
 const eventBus = new EventBus()
 
-eventBus.addEventHandlerEntry('myEvent', (message: string, eventName: string) => {
-  console.log("Handler 1:", message, `(event name: ${eventName})`)
+eventBus.on('myEvent', (message: string, eventName: string) => {
+  console.log('Handler 1:', message, `(event name: ${eventName})`)
 })
-eventBus.addEventHandlerEntry('myEvent', (message: string, eventName: string) => {
-  console.log("Handler 2:", message, `(event name: ${eventName})`)
+eventBus.on('myEvent', async (message: string, eventName: string) => {
+  console.log('Handler 2:', message, `(event name: ${eventName})`)
 })
 
 eventBus.emit('myEvent', 'This is a message')
@@ -46,19 +46,19 @@ interface MyEvent {
   message: string
 }
 
-eventBus.addEventHandlerEntry('myEvent', {
+eventBus.on('myEvent', {
   priority: 9,
   handler: (event: MyEvent) => {
     console.log('handler with priority 9 executed third', event)
   }
 })
-eventBus.addEventHandlerEntry('myEvent', {
+eventBus.on('myEvent', {
   priority: -9,
   handler: (event: MyEvent) => {
     console.log('handler with priority -9 executed first', event)
   }
 })
-eventBus.addEventHandlerEntry('myEvent', (event: MyEvent) => {
+eventBus.on('myEvent', (event: MyEvent) => {
   console.log('handler with priority 0 executed second', event)
 })
 
@@ -113,12 +113,12 @@ eventBus.emit('event3')
 // #2: event3
 // #3: event3
 
-eventBus.addEventHandlerEntry('event4', () => console.log('#1: event4'))
-eventBus.addEventHandlerEntry('event4', [
+eventBus.on('event4', () => console.log('#1: event4'))
+eventBus.on('event4', [
   () => console.log('#2: event4'),
   () => console.log('#3: event4'),
 ])
-eventBus.addEventHandlerEntry('event4', {
+eventBus.on('event4', {
   priority: 99,
   handler: () => console.log('#4: event4'),
 })

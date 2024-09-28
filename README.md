@@ -37,10 +37,11 @@ import { EventBus } from 'simple-event-bus'
 
 const eventBus = new EventBus()
 
-eventBus.addEventHandlerEntry('myEvent', (message: string, eventName: string) => {
+eventBus.on('myEvent', (message: string, eventName: string) => {
   console.log("Handler 1:", message, `(event name: ${eventName})`)
 })
-eventBus.addEventHandlerEntry('myEvent', (message: string, eventName: string) => {
+// Also works with async handlers (they will still be executed sequentially)
+eventBus.on('myEvent', async (message: string, eventName: string) => {
   console.log("Handler 2:", message, `(event name: ${eventName})`)
 })
 

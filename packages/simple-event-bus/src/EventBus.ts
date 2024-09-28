@@ -1,4 +1,8 @@
-export type EventHandler = (<T>(event: T, eventName: string) => void) | (<T>(event: T) => void)
+export type EventHandler =
+  | (<T>(event: T, eventName: string) => void)
+  | (<T>(event: T) => void)
+  | (<T>(event: T, eventName: string) => Promise<void>)
+  | (<T>(event: T) => Promise<void>)
 
 export interface EventMapEntryType {
   priority: number
@@ -10,11 +14,11 @@ export class EventBus {
 
   constructor(eventMap: Record<string, EventMapEntryType[]> = {}) {
     for (const [eventName, entries] of Object.entries(eventMap)) {
-      this.addEventHandlerEntry(eventName, entries)
+      this.on(eventName, entries)
     }
   }
 
-  addEventHandlerEntry(
+  on(
     eventName: string,
     args: EventHandler | EventMapEntryType | EventHandler[] | EventMapEntryType[],
   ): void {
@@ -39,12 +43,12 @@ export class EventBus {
     return entry
   }
 
-  emit<T>(eventName: string, eventData?: T): void {
+  async emit<T>(eventName: string, eventData?: T): Promise<void> {
     if (!this.eventMap[eventName]) {
       return
     }
     for (const entry of this.eventMap[eventName]) {
-      entry.handler(eventData, eventName)
+      await entry.handler(eventData, eventName)
     }
   }
 }
