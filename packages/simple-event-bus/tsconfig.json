@@ -13,6 +13,7 @@
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "declaration": true,
     "noEmit": true,
     "removeComments": true,
     "sourceMap": true,

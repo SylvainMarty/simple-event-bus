@@ -1,5 +1,5 @@
 {
-  "name": "simple-event-bus-nestjs",
+  "name": "@sylvmty/simple-event-bus-nestjs",
   "version": "1.0.0",
   "description": "NestJS package for a simple, no-dependency, synchronous event bus written in TypeScript",
   "author": "Sylvain Marty",
@@ -11,14 +11,14 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
   },
-  "peerDependencies": {
-    "simple-event-bus": "*"
-  },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1"
+  },
+  "peerDependencies": {
+    "@sylvmty/simple-event-bus": "workspace:^"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
@@ -60,7 +60,8 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@lib/simple-event-bus(|/.*)$": "<rootDir>/libs/simple-event-bus/src/$1"
+      "^@lib/simple-event-bus(|/.*)$": "<rootDir>/libs/simple-event-bus/src/$1",
+      "^@sylvmty/simple-event-bus$": "<rootDir>/node_modules/@sylvmty/simple-event-bus/dist/index.cjs"
     }
   }
 }
