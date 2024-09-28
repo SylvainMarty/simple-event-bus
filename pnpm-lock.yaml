@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@sylvmty/simple-event-bus': workspace:*
+
 importers:
 
   .:
@@ -14,6 +17,9 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^19.2.2
         version: 19.5.0
+      '@sylvmty/simple-event-bus':
+        specifier: workspace:*
+        version: link:packages/simple-event-bus
       husky:
         specifier: ^9.0.11
         version: 9.1.6
@@ -69,7 +75,7 @@ importers:
         specifier: ^10.0.0
         version: 10.4.3(@nestjs/common@10.4.3(reflect-metadata@0.2.2)(rxjs@7.8.1))(@nestjs/platform-express@10.4.3)(reflect-metadata@0.2.2)(rxjs@7.8.1)
       '@sylvmty/simple-event-bus':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../simple-event-bus
       reflect-metadata:
         specifier: ^0.2.0

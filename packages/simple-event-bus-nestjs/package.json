@@ -18,7 +18,7 @@
     "rxjs": "^7.8.1"
   },
   "peerDependencies": {
-    "@sylvmty/simple-event-bus": "workspace:^"
+    "@sylvmty/simple-event-bus": "*"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
@@ -61,7 +61,7 @@
     ],
     "moduleNameMapper": {
       "^@lib/simple-event-bus(|/.*)$": "<rootDir>/libs/simple-event-bus/src/$1",
-      "^@sylvmty/simple-event-bus$": "<rootDir>/node_modules/@sylvmty/simple-event-bus/dist/index.cjs"
+      "^@sylvmty/simple-event-bus$": "<rootDir>/../../node_modules/@sylvmty/simple-event-bus/dist/index.cjs"
     }
   }
 }
