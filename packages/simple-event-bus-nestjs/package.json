@@ -9,10 +9,6 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "lint": " biome lint ./src ./libs",
-    "lint:fix": " biome lint ./src ./libs --write",
-    "format": "biome format ./src ./libs",
-    "format:fix": "biome format ./src ./libs --write",
     "tscheck": "tsc --noEmit"
   },
   "dependencies": {

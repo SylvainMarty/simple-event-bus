@@ -23,10 +23,6 @@
     "test": "vitest --run",
     "test:watch": "vitest",
     "test:coverage": "vitest --coverage",
-    "lint": " biome lint ./src",
-    "lint:fix": " biome lint ./src --write",
-    "format": "biome format ./src",
-    "format:fix": "biome format ./src --write",
     "tscheck": "tsc --noEmit"
   },
   "devDependencies": {
