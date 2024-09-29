@@ -15,9 +15,24 @@
         "^lint"
       ]
     },
+    "lint:fix": {
+      "dependsOn": [
+        "^lint:fix"
+      ]
+    },
     "format": {
       "dependsOn": [
         "^format"
+      ]
+    },
+    "format:fix": {
+      "dependsOn": [
+        "^format:fix"
+      ]
+    },
+    "tscheck": {
+      "dependsOn": [
+        "^tscheck"
       ]
     },
     "test": {

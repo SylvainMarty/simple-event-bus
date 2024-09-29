@@ -18,12 +18,17 @@
   "scripts": {
     "build": "turbo build",
     "lint": "turbo lint",
+    "lint:fix": "turbo lint:fix",
+    "format": "turbo format",
+    "format:fix": "turbo format:fix",
+    "tscheck": "turbo tscheck",
     "test": "turbo test",
     "test:watch": "turbo test:watch",
     "test:coverage": "turbo test:coverage",
     "prepare": "husky install"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.2",
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
     "@sylvmty/simple-event-bus": "workspace:*",
