@@ -1,7 +1,7 @@
 {
   "name": "@sylvmty/simple-event-bus",
   "type": "module",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A simple, no-dependency, synchronous event bus written in TypeScript",
   "author": "Sylvain Marty",
   "license": "MIT",
