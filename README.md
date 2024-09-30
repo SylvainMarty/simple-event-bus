@@ -5,11 +5,11 @@ A simple, no-dependency, synchronous event bus written in TypeScript
 
 ```bash
 # NPM
-npm i --save simple-event-bus
+npm i --save @sylvmty/simple-event-bus
 # PNPM
-pnpm add --save simple-event-bus
+pnpm add --save @sylvmty/simple-event-bus
 # Yarn
-yarn add simple-event-bus
+yarn add @sylvmty/simple-event-bus
 ```
 
 ## Features
@@ -33,19 +33,19 @@ I found it too complex for my needs and it was also lacking some features like p
 
 ### Example
 ```ts
-import { EventBus } from 'simple-event-bus'
+import { EventBus } from "@sylvmty/simple-event-bus"
 
 const eventBus = new EventBus()
 
-eventBus.on('myEvent', (message: string, eventName: string) => {
+eventBus.on("myEvent", (message: string, eventName: string) => {
   console.log("Handler 1:", message, `(event name: ${eventName})`)
 })
 // Also works with async handlers (they will still be executed sequentially)
-eventBus.on('myEvent', async (message: string, eventName: string) => {
+eventBus.on("myEvent", async (message: string, eventName: string) => {
   console.log("Handler 2:", message, `(event name: ${eventName})`)
 })
 
-eventBus.emit('myEvent', 'This is a message')
+await await eventBus.emit("myEvent", "This is a message")
 
 // Output:
 // Handler 1: This is a message (event name: myEvent)
