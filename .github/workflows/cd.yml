@@ -1,32 +1,29 @@
-name: CI
+name: Release
 
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published]
 
 jobs:
-  ci:
-    name: CI
+  release:
+    name: Release
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
+          registry-url: 'https://registry.npmjs.org'
+          scope: '@sylvmty'
       - uses: pnpm/action-setup@v4
         with:
           run_install: true
-      - name: Code check
-        run: |
-          pnpm run check
       - name: Build
         run: |
           pnpm run build --filter @sylvmty/simple-event-bus
           pnpm run build --filter @sylvmty/simple-event-bus-nestjs
-      - name: TS Check
+      - name: Publish to NPM
         run: |
-          pnpm run tscheck
-      - name: Tests
-        run: |
-          pnpm run test
+          pnpm publish --filter @sylvmty/simple-event-bus --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
