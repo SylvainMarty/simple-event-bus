@@ -1,1 +1,1 @@
-export * from './simple-event-bus.module';
+export * from "./simple-event-bus.module";

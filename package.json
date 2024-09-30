@@ -17,10 +17,8 @@
   ],
   "scripts": {
     "build": "turbo build",
-    "lint": " biome lint ./packages/simple-event-bus/src ./packages/simple-event-bus-nestjs/src ./packages/simple-event-bus-nestjs/libs",
-    "lint:fix": " biome lint ./packages/simple-event-bus/src ./packages/simple-event-bus-nestjs/src ./packages/simple-event-bus-nestjs/libs --write",
-    "format": "biome format ./packages/simple-event-bus/src ./packages/simple-event-bus-nestjs/src ./packages/simple-event-bus-nestjs/libs",
-    "format:fix": "biome format ./packages/simple-event-bus/src ./packages/simple-event-bus-nestjs/src ./packages/simple-event-bus-nestjs/libs --write",
+    "check": " biome check ./packages/simple-event-bus/src ./packages/simple-event-bus-nestjs/src ./packages/simple-event-bus-nestjs/libs",
+    "check:fix": " biome check ./packages/simple-event-bus/src ./packages/simple-event-bus-nestjs/src ./packages/simple-event-bus-nestjs/libs --write",
     "tscheck": "turbo tscheck",
     "test": "turbo test",
     "test:watch": "turbo test:watch",

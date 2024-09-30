@@ -17,12 +17,9 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           run_install: true
-      - name: Lint
+      - name: Code check
         run: |
-          pnpm run lint
-      - name: Format
-        run: |
-          pnpm run format
+          pnpm run check
       - name: Build
         run: |
           pnpm run build --filter @sylvmty/simple-event-bus

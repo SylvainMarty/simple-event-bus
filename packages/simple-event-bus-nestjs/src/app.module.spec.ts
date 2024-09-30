@@ -1,6 +1,6 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { AppService } from './app.service';
-import { AppModule } from './app.module';
+import { Test, TestingModule } from "@nestjs/testing";
+import { AppModule } from "./app.module";
+import { AppService } from "./app.service";
 
 describe("AppModule", () => {
   let appService: AppService;
@@ -14,7 +14,7 @@ describe("AppModule", () => {
     appService = app.get<AppService>(AppService);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(appService).toBeDefined();
   });
 });

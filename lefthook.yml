@@ -1,12 +1,9 @@
 pre-commit:
   parallel: true
   commands:
-    lint:
+    biome-check:
       glob: "*.{js,ts}"
-      run: pnpm biome lint --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {staged_files}
-    format:
-      glob: "*.{js,ts}"
-      run: pnpm biome format --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {staged_files}
+      run: pnpm biome check --no-errors-on-unmatched --files-ignore-unknown=true --colors=off {staged_files}
 
 commit-msg:
   commands:

@@ -1,11 +1,11 @@
-import { InjectionToken } from '@nestjs/common';
-import { EventMapEntryType } from '@sylvmty/simple-event-bus';
-import { DiscoveryService } from '@nestjs/core';
+import { InjectionToken } from "@nestjs/common";
+import { DiscoveryService } from "@nestjs/core";
+import { EventMapEntryType } from "@sylvmty/simple-event-bus";
 
 export type OnEventWithToken = { token?: InjectionToken };
 export type OnEventOptions = {
-  priority?: EventMapEntryType["priority"],
-  token?: InjectionToken
+  priority?: EventMapEntryType["priority"];
+  token?: InjectionToken;
 };
 export type OnEventParams =
   | string
